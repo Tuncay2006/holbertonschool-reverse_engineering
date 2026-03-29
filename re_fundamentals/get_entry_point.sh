@@ -26,17 +26,11 @@ fi
 # Extract ELF header
 header=$(readelf -h "$file_name")
 
-# Parse values safely
+# Parse values
 magic_number=$(echo "$header" | grep "Magic:" | sed 's/.*: *//')
 class=$(echo "$header" | grep "Class:" | sed 's/.*: *//')
 byte_order=$(echo "$header" | grep "Data:" | sed 's/.*: *//' | grep -o "little endian\|big endian")
 entry_point_address=$(echo "$header" | grep "Entry point address:" | sed 's/.*: *//')
 
-# Display formatted output using messages.sh
-# Use printf to avoid extra newline at the end
-echo "ELF Header Information for '$file_name':"
-echo "----------------------------------------"
-echo "Magic Number: $magic_number"
-echo "Class: $class"
-echo "Byte Order: $byte_order"
-printf "Entry Point Address: %s" "$entry_point_address"
+# ✅ Use the messages.sh function to display output
+display_elf_header_info
