@@ -23,13 +23,14 @@ if ! file "$file_name" | grep -q "ELF"; then
     exit 1
 fi
 
-# Extract ELF header info
+# Extract ELF header
 header=$(readelf -h "$file_name")
 
-magic_number=$(echo "$header" | grep "Magic:" | cut -d: -f2 | xargs)
-class=$(echo "$header" | grep "Class:" | cut -d: -f2 | xargs)
-byte_order=$(echo "$header" | grep "Data:" | cut -d: -f2 | xargs)
-entry_point_address=$(echo "$header" | grep "Entry point address:" | cut -d: -f2 | xargs)
+# Parse values safely (no xargs!)
+magic_number=$(echo "$header" | grep "Magic:" | sed 's/.*: *//')
+class=$(echo "$header" | grep "Class:" | sed 's/.*: *//')
+byte_order=$(echo "$header" | grep "Data:" | sed 's/.*: *//' | grep -o "little endian\|big endian")
+entry_point_address=$(echo "$header" | grep "Entry point address:" | sed 's/.*: *//')
 
-# Display using messages.sh
+# Display formatted output
 display_elf_header_info
