@@ -1,1 +1,1 @@
-readelf -S target_binary | grep -v '\.text\|\.data\|\.bss\|\.rodata'
+readelf -S task1
