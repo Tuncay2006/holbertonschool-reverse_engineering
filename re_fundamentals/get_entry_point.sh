@@ -33,4 +33,10 @@ byte_order=$(echo "$header" | grep "Data:" | sed 's/.*: *//' | grep -o "little e
 entry_point_address=$(echo "$header" | grep "Entry point address:" | sed 's/.*: *//')
 
 # Display formatted output using messages.sh
-display_elf_header_info
+# Use printf to avoid extra newline at the end
+echo "ELF Header Information for '$file_name':"
+echo "----------------------------------------"
+echo "Magic Number: $magic_number"
+echo "Class: $class"
+echo "Byte Order: $byte_order"
+printf "Entry Point Address: %s" "$entry_point_address"
